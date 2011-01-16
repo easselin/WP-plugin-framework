@@ -7,14 +7,20 @@ class AdminForm {
   
   protected $title;
   protected $fieldsetArray;
+  protected $postCallbackArray;
   
   public function __construct($str) {
     $this->title = $str;
     $this->fieldsetArray = array();
+    $this->postCallbackArray = array();
   }
   
   public function addFieldset($fieldset) {
     array_push($this->fieldsetArray, $fieldset);
+  }
+  
+  public function addPostCallback($callback) {
+    array_push($this->postCallbackArray, $callback);
   }
 
   public function show($params=null) {
@@ -50,6 +56,10 @@ class AdminForm {
   
   public function getFieldsetArray() {
     return $this->fieldsetArray;
+  }
+
+  public function getPostCallbackArray() {
+    return $this->postCallbackArray;
   }
   
   public function __destruct() {}
@@ -120,12 +130,16 @@ abstract class Field {
   //protected $type; ??????
   public $label;
   public $preCallback;
+  public $postCallback;
+  public $isInsertable;
   
   public function __construct($params) {
     $params = (array)$params;
     $this->name = (array_key_exists('name', $params)) ? $params['name'] : 'fieldname';
     $this->label = (array_key_exists('label', $params)) ? $params['label'] : 'fieldlabel';
     $this->preCallback = (array_key_exists('preCallback', $params)) ? $params['preCallback'] : null;
+    $this->postCallback = (array_key_exists('postCallback', $params)) ? $params['postCallback'] : null;
+    $this->isInsertable = (array_key_exists('isInsertable', $params)) ? $params['isInsertable'] : true;
   }
   
   abstract public function show($params=null);
@@ -138,6 +152,10 @@ abstract class Field {
     return $value;
   }
   
+  public function getPostCallback($params=null) {
+    return $this->postCallback;
+  }
+  
   public function __destruct() {}
   
 }
@@ -146,6 +164,7 @@ include('ea.adminTextfield.php');
 include('ea.adminTextarea.php');
 include('ea.adminCheckbox.php');
 include('ea.adminFilefield.php');
+include('ea.adminWPTagsfield.php');
 
 } // end define test
 

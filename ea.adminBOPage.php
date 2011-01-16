@@ -139,29 +139,38 @@ abstract class adminBOPage {
         foreach($this->adminForm->getFieldsetArray() as $fieldset) {
           foreach($fieldset->getFieldArray() as $field) {
             
-            // pour forcer les groupes de checkbox vident ou les fichiers
-            if(!isset($_POST[$field->name])) {
-              if(isset($_FILES[$field->name])) {
-                $data[$field->name] = $_FILES[$field->name];
-                $data[$field->name] = $field->preProcess($data[$field->name]);
-              } else {
-                $data[$field->name] = array();
-                $data[$field->name] = $field->preProcess($data[$field->name]);
+            if($field->isInsertable == true) {
+              // pour forcer les groupes de checkbox vident ou les fichiers
+              if(!isset($_POST[$field->name])) {
+                if(isset($_FILES[$field->name])) {
+                  $data[$field->name] = $_FILES[$field->name];
+                  $data[$field->name] = $field->preProcess($data[$field->name]);
+                } else {
+                  $data[$field->name] = array();
+                  $data[$field->name] = $field->preProcess($data[$field->name]);
+                }
               }
-            }
             
-            // pour les fichiers
-            //if()
+              // pour les fichiers
+              //if()
             
-            if($_POST[$field->name] != "") {
-              $data[$field->name] = $_POST[$field->name];
-              //print_r($data[$field->name]);
-              $data[$field->name] = $field->preProcess($data[$field->name]);
-              //echo $field->name;
+              if($_POST[$field->name] != "") {
+                $data[$field->name] = $_POST[$field->name];
+                //print_r($data[$field->name]);
+                $data[$field->name] = $field->preProcess($data[$field->name]);
+                //echo $field->name;
+              } else {
+                //echo $field->name;
+              }
+              //echo $field->label.'<br>';
             } else {
-              //echo $field->name;
+              $field->preProcess($data[$field->name]);
             }
-            //echo $field->label.'<br>';
+            
+            if($field->getPostCallback() != null){
+              $this->adminForm->addPostCallback($field->getPostCallback());
+            }
+            
           }
         }
         
@@ -193,6 +202,11 @@ abstract class adminBOPage {
         
       }
     }
+    
+    foreach($this->adminForm->getPostCallbackArray() as $postCallback) {
+      call_user_func($postCallback, array('id'=>$id));
+    }
+    
     $formData = $this->businessObject->getById((int)$params['objectId']);
     //print_r($formData);
     $this->adminForm->show($formData);

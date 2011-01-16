@@ -71,7 +71,7 @@ abstract class businessExtendedObject {
     $whereClause = (array_key_exists('whereClause', $params)) ? $params['whereClause'] : '';
     $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : '';
     $sort = (array_key_exists('sort', $params)) ? $params['sort'] : 'ASC';
-    $countField = (array_key_exists('countField', $params)) ? $params['countField'] : 'id';
+    $countField = (array_key_exists('countField', $params)) ? $params['countField'] : $this->extended_object->getObjectTable().'.id';
     $groupByField = (array_key_exists('groupByField', $params)) ? $params['groupByField'] : '';
     
     if($whereClause != '') {
@@ -115,7 +115,12 @@ abstract class businessExtendedObject {
     if($extId != null && $extId > 0) {
       $splitParams[0][$this->joinField] = $extId;
       $this->dbase->insert($this->obj_table,$splitParams[0]);
-      return $this->dbase->insert_id;
+      if($this->dbase->insert_id != null && $this->dbase->insert_id > 0) {
+        return $extId;
+      } else {
+        // Todo: rollback de la première insertion
+        return 0;
+      }
     } else {
       return 0;
     }
