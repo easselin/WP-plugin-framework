@@ -26,7 +26,7 @@ abstract class businessObject {
     $limit = (array_key_exists('limit', $params)) ? $params['limit'] : 20;
     $offset = (array_key_exists('offset', $params)) ? $params['offset'] : 0;
     $whereClause = (array_key_exists('whereClause', $params)) ? $params['whereClause'] : '';
-    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : '';
+    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : 'id';
     $sort = (array_key_exists('sort', $params)) ? $params['sort'] : 'ASC';
     
     if($whereClause != '') {
@@ -60,7 +60,7 @@ abstract class businessObject {
     $limit = (array_key_exists('limit', $params)) ? $params['limit'] : 20;
     $offset = (array_key_exists('offset', $params)) ? $params['offset'] : 0;
     $whereClause = (array_key_exists('whereClause', $params)) ? $params['whereClause'] : '';
-    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : '';
+    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : 'id';
     $sort = (array_key_exists('sort', $params)) ? $params['sort'] : 'ASC';
     $countField = (array_key_exists('countField', $params)) ? $params['countField'] : 'id';
     $groupByField = (array_key_exists('groupByField', $params)) ? $params['groupByField'] : '';

@@ -34,7 +34,7 @@ abstract class businessExtendedObject {
     $limit = (array_key_exists('limit', $params)) ? $params['limit'] : 20;
     $offset = (array_key_exists('offset', $params)) ? $params['offset'] : 0;
     $whereClause = (array_key_exists('whereClause', $params)) ? $params['whereClause'] : '';
-    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : '';
+    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : $this->obj_table.'.id';
     $sort = (array_key_exists('sort', $params)) ? $params['sort'] : 'ASC';
     
     if($whereClause != '') {
@@ -50,7 +50,7 @@ abstract class businessExtendedObject {
     }
     
     if($orderField != '') {
-      $orderField = 'ORDER BY '.$this->obj_table.'.'.$orderField.' '.$sort;
+      $orderField = 'ORDER BY '.$orderField.' '.$sort;
     }
     
     return $this->dbase->get_results(
@@ -69,7 +69,7 @@ abstract class businessExtendedObject {
     $limit = (array_key_exists('limit', $params)) ? $params['limit'] : 20;
     $offset = (array_key_exists('offset', $params)) ? $params['offset'] : 0;
     $whereClause = (array_key_exists('whereClause', $params)) ? $params['whereClause'] : '';
-    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : '';
+    $orderField = (array_key_exists('orderField', $params)) ? $params['orderField'] : $this->obj_table.'.id';
     $sort = (array_key_exists('sort', $params)) ? $params['sort'] : 'ASC';
     $countField = (array_key_exists('countField', $params)) ? $params['countField'] : $this->extended_object->getObjectTable().'.id';
     $groupByField = (array_key_exists('groupByField', $params)) ? $params['groupByField'] : '';
@@ -82,7 +82,7 @@ abstract class businessExtendedObject {
       if($orderField == 'total') {
         $orderField = 'ORDER BY '.$orderField.' '.$sort;
       } else {
-        $orderField = 'ORDER BY '.$this->obj_table.'.'.$orderField.' '.$sort;
+        $orderField = 'ORDER BY '.$orderField.' '.$sort;
       }
       
     }
