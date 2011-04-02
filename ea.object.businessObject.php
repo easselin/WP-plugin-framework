@@ -66,7 +66,15 @@ abstract class businessObject {
     $groupByField = (array_key_exists('groupByField', $params)) ? $params['groupByField'] : '';
     
     if($whereClause != '') {
-      $whereClause = 'AND '.$whereClause;
+      if(is_array($whereClause)) {
+        $tmpClause = $whereClause;
+        $whereClause = '';
+        foreach($tmpClause as $wc) {
+          $whereClause .= ' AND '.$wc;
+        }
+      } else {
+        $whereClause = ' AND '.$whereClause;
+      }
     }
     
     if($orderField != '') {
@@ -96,7 +104,7 @@ abstract class businessObject {
     
     $params = (array)$params;
     $this->dbase->insert($this->obj_table,$params);
-    return $this->dbase->insert_id;
+    return $this->dbase->get_var("SELECT LAST_INSERT_ID()");
     
   }
   

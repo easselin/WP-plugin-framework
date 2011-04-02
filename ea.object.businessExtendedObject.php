@@ -75,7 +75,15 @@ abstract class businessExtendedObject {
     $groupByField = (array_key_exists('groupByField', $params)) ? $params['groupByField'] : '';
     
     if($whereClause != '') {
-      $whereClause = 'AND '.$whereClause;
+      if(is_array($whereClause)) {
+        $tmpClause = $whereClause;
+        $whereClause = '';
+        foreach($tmpClause as $wc) {
+          $whereClause .= ' AND '.$wc;
+        }
+      } else {
+        $whereClause = ' AND '.$whereClause;
+      }
     }
     
     if($orderField != '') {

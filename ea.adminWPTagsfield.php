@@ -29,9 +29,8 @@ class WPTagsfield extends Field {
   }
   
   public function maFonction($params) {
-    // manque une facon de récupérer les tags...
-    //echo $params['id'];
-    //echo $_POST[$this->name];
+    
+    wp_delete_term( $params['id'], $this->taxonomy );
     // On recupere les tags
     $tags = explode(',',$_POST[$this->name]);
     // Nettoie les tags

@@ -86,7 +86,7 @@ abstract class adminBOPage {
         <thead>
           <tr>
             <?php foreach ( $this->listableField as $column ) : ?>
-            <th scope="col"><?php echo $column ?></th>
+            <th scope="col"><?php echo stripslashes($column) ?></th>
             <?php endforeach; ?>
             <th scope="col" colspan="2">Actions</th>
           </tr>
@@ -102,7 +102,7 @@ abstract class adminBOPage {
               $keys = array_keys($this->listableField);
               foreach ( $keys as $key ) : 
             ?>
-            <td><?php echo $object->$key ?></td>
+            <td><?php echo stripslashes($object->$key) ?></td>
             <?php endforeach; ?>
             
             <td><a href="<?php echo get_option('siteurl'); ?>/wp-admin/admin.php?page=<?php echo $this->menuId; ?>&amp;action=edit&amp;object_id=<?php echo $object->id; ?>">Editer</a></td>
