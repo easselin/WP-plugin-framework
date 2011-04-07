@@ -9,7 +9,7 @@ class WPTagsfield extends Field {
   
   public function __construct($params) {
     parent::__construct($params);
-    $this->isInsertable = false;
+    $this->isInsertable = true;
     $this->taxonomy = (array_key_exists('taxonomy', $params)) ? $params['taxonomy'] : 'post_tag';
     $this->postCallback = array($this, 'maFonction');
   }
@@ -29,6 +29,9 @@ class WPTagsfield extends Field {
   }
   
   public function maFonction($params) {
+    // manque une facon de récupérer les tags...
+    //echo $params['id'];
+    //echo $_POST[$this->name];
     
     wp_delete_term( $params['id'], $this->taxonomy );
     // On recupere les tags

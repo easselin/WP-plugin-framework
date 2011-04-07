@@ -165,6 +165,7 @@ include('ea.adminTextarea.php');
 include('ea.adminCheckbox.php');
 include('ea.adminFilefield.php');
 include('ea.adminWPTagsfield.php');
+include('ea.adminListbox.php');
 
 } // end define test
 

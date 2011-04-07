@@ -7,14 +7,18 @@ class Checkbox extends Field {
   
   public $groupArray;
   public $title;
+  public $fieldType; // bin->binary, csi->comma separated ids
   
   public function __construct($params) {
     $params = (array)$params;
     parent::__construct($params);
     $this->groupArray = (array_key_exists('group', $params)) ? $params['group'] : array();
     $this->title = (array_key_exists('title', $params)) ? $params['title'] : false;
-    if($this->preCallback == null) {
+    $this->fieldType = (array_key_exists('fieldType', $params)) ? $params['fieldType'] : 'bin';
+    if( $this->preCallback == null && $this->fieldType == 'bin' ) {
       $this->preCallback = array($this, 'chkBinaryBuild');
+    } elseif( $this->preCallback == null && $this->fieldType == 'csi' ) {
+      $this->preCallback = array($this, 'chkCSIBuild');
     }
   }
   
@@ -27,20 +31,22 @@ class Checkbox extends Field {
     }
     
     $value = (isset($data[$this->name])) ? $data[$this->name] : '';
-    $value = str_split($value);    
+    if( $this->fieldType == 'bin' ) {
+      $value = str_split($value);
+    } elseif( $this->fieldType == 'csi' ) {
+      $value = explode(',', $value );
+    }
+    
     $count = 0;
     
-    foreach($this->groupArray as $unitChk) {
+    foreach($this->groupArray as $key => $unitChk) {
       
-      $checked = '';
-      if($value[$count] == '1') {
-        $checked = 'checked="checked"';
-      }
+      $checked = $this->isChecked($count, $value, $key);
       
       //echo 'le callback est: '.$this->preCallback;
       echo '
-        <input type="checkbox" name="'.$this->name.'[]" tabindex="" value="'.$unitChk.'" id="'.$this->name.'_'.$unitChk.'" '.$checked.' />
-        <label for="'.$this->name.'_'.$unitChk.'">'.$unitChk.'</label>
+        <input type="checkbox" name="'.$this->name.'[]" tabindex="" value="'.$key.'" id="'.$this->name.'_'.$key.'" '.$checked.' />
+        <label for="'.$this->name.'_'.$key.'">'.$unitChk.'</label><br />
       ';
       
       $count++;
@@ -49,10 +55,21 @@ class Checkbox extends Field {
     
   }
   
+  private function isChecked($c, $v, $k) {
+
+    if( $this->fieldType == 'bin' && $v[$c] == '1') {
+      return 'checked="checked"';
+      
+    } elseif( $this->fieldType == 'csi' && in_array($k, $v)) {
+      return 'checked="checked"';
+      
+    } else {
+      return '';
+    }
+  }
   
 
   public function chkBinaryBuild($value) {
-    //print_r($value);
     if(!is_array($value)) {
       $value = array();
     }
@@ -60,7 +77,6 @@ class Checkbox extends Field {
     $newvalue = '';
     
     foreach($this->groupArray as $unitChk) {
-      //echo $unitChk;
       
       if(in_array($unitChk, $value)) {
         $newvalue .= '1';
@@ -69,8 +85,14 @@ class Checkbox extends Field {
       }
       
     }
-    //print_r($newvalue);
     return $newvalue;
+  }
+  
+  public function chkCSIBuild($value) {
+    if(!is_array($value)) {
+      $value = array();
+    }
+    return implode(',', $value);
   }
   
 }
