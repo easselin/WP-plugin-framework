@@ -17,10 +17,12 @@ class Listbox extends Field {
   }
   
   public function show($params=null) {
-    $data = get_object_vars($params);
+    $data = get_object_vars((object)$params);
     $value = (isset($data[$this->name])) ? stripslashes($data[$this->name]) : '';
     
-    echo '<select name="'.$this->name.'" tabindex="" id="'.$this->name.'">';
+    echo '
+      <label for="'.$this->name.'">'.$this->label.'</label><br/>
+      <select name="'.$this->name.'" tabindex="" id="'.$this->name.'">';
     
     $count=0;
     foreach((array)$this->options as $key => $optValue) {

@@ -24,7 +24,7 @@ class Checkbox extends Field {
   
   public function show($params=null) {
 
-    $data = get_object_vars($params);
+    $data = get_object_vars((object)$params);
     
     if($this->title) {
       echo '<strong>'.$this->label.'</strong><br />';

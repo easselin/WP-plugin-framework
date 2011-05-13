@@ -11,7 +11,7 @@ class Textarea extends Field {
   
   public function show($params=null) {
 
-    $data = get_object_vars($params);
+    $data = get_object_vars((object)$params);
 
     $value = (isset($data[$this->name])) ? stripslashes($data[$this->name]) : '';
 

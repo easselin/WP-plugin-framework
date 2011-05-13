@@ -5,8 +5,8 @@ if( !defined('__BUSINESSEXTENDEDOBJECT') ) {
 
 abstract class businessExtendedObject {
   
-  protected $obj_table;
-  protected $dbase;
+  protected static $obj_table;
+  protected static $dbase;
   protected $extended_object;
   protected $joinField;
   protected $tbStructArray;

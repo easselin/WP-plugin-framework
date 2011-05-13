@@ -96,7 +96,7 @@ class Fieldset {
         echo '<tr>';
       }
       
-      echo '<td>';
+      echo '<td style="padding:2px 0px">';
       $field->show($params);
       //echo $count % $this->layout;
       echo '</td>';
@@ -127,11 +127,11 @@ class Fieldset {
 abstract class Field {
   
   public $name;
-  //protected $type; ??????
   public $label;
   public $preCallback;
   public $postCallback;
   public $isInsertable;
+  public $disabled;
   
   public function __construct($params) {
     $params = (array)$params;
@@ -140,6 +140,7 @@ abstract class Field {
     $this->preCallback = (array_key_exists('preCallback', $params)) ? $params['preCallback'] : null;
     $this->postCallback = (array_key_exists('postCallback', $params)) ? $params['postCallback'] : null;
     $this->isInsertable = (array_key_exists('isInsertable', $params)) ? $params['isInsertable'] : true;
+    $this->disabled = (array_key_exists('disabled', $params)) ? $params['disabled'] : false;
   }
   
   abstract public function show($params=null);

@@ -15,13 +15,9 @@ class WPTagsfield extends Field {
   }
   
   public function show($params=null) {
-    //print_r($params);
-    $data = get_object_vars($params);
-    //echo $data[$this->name];
-    //print_r($data);
+    $data = get_object_vars((object)$params);
     $tags_array = wp_get_object_terms($data['id'], $this->taxonomy, array('fields' => 'names'));
     $value = implode(', ', $tags_array );
-    //$value = (isset($data[$this->name])) ? stripslashes($data[$this->name]) : '';
     echo '
       <label for="'.$this->name.'">'.$this->label.'</label><br/>
       <input type="text" name="'.$this->name.'" size="28" tabindex="" value="'.$value.'" id="'.$this->name.'" />

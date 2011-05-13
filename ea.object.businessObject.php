@@ -5,8 +5,8 @@ if( !defined('__BUSINESSOBJECT') ) {
 
 abstract class businessObject {
   
-  protected $obj_table;
-  protected $dbase;
+  protected static $obj_table;
+  protected static $dbase;
   
   public function __construct() {
     global $wpdb;
