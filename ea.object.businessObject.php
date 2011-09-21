@@ -13,7 +13,7 @@ abstract class businessObject {
     $this->dbase = $wpdb;
   }
   
-  public function getById($id) {
+  public static function getById($id) {
     $id = (int)$id;
     return $this->dbase->get_row("SELECT {$this->obj_table}.*
                         FROM {$this->obj_table}
