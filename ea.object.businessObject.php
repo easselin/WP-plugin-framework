@@ -129,7 +129,7 @@ abstract class businessObject {
   public static function getListOptions($field) {
     $class = get_called_class();
     $obj = new $class();    
-    $objects = $obj->getCollection(array('limit'=>9999));
+    $objects = $obj->getCollection(array('limit'=>9999, 'orderField'=>$field));
     $list = array();
     foreach($objects as $row) {
       $list[$row->id] = $row->$field;
