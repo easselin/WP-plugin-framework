@@ -21,7 +21,7 @@ function my_admin_alert($texte, $message_type='updated'){
 if(!function_exists('post_slug')) {
 function post_slug($str)
 {
-  return strtolower(preg_replace(array('/[^a-zA-Z0-9 -.]/', '/[ -]+/', '/^-|-$/', '/,/'),
+  return strtolower(preg_replace(array('/[^a-zA-Z0-9 -.]/', '/[ -]+/', '/^-|-$/', '/,/', '/\'/'),
   array('', '-', ''), remove_accent($str)));
 }
 } // end function_exists

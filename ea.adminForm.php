@@ -162,6 +162,7 @@ abstract class Field {
 }
 
 include('ea.adminTextfield.php');
+include('ea.adminDatefield.php');
 include('ea.adminTextarea.php');
 include('ea.adminCheckbox.php');
 include('ea.adminFilefield.php');
